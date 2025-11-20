@@ -39,10 +39,11 @@ export function renderCountryList({ countries, favorites, onCountryClick, onFavo
         const nameEl = createElement("h5", "card-title", country.name.common);
 
         // Regio en populatie
-        const infoEl = createElement(
+        const regionEl = createElement("p", "card-text mb-0", country.region);
+        const popEl = createElement(
             "p",
-            "card-text mb-2",
-            `${country.region} • Populatie: ${country.population.toLocaleString()}`
+            "card-text mb-2 text-muted",
+            `Populatie: ${country.population.toLocaleString()}`
         );
 
         // Buttons container
@@ -67,7 +68,8 @@ export function renderCountryList({ countries, favorites, onCountryClick, onFavo
         // Voeg alles toe aan cardBody
         cardBody.appendChild(flagImg);
         cardBody.appendChild(nameEl);
-        cardBody.appendChild(infoEl);
+        cardBody.appendChild(regionEl);
+        cardBody.appendChild(popEl);
         cardBody.appendChild(btnContainer);
 
         card.appendChild(cardBody);

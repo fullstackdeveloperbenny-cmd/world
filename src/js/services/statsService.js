@@ -34,10 +34,10 @@ export function calculateStats(countries, favorites) {
 // TODO:
 // - totalCountries V
 // - averagePopulation  V
-// - favoritesPopulation
+// - favoritesPopulation !!! NOG NIET AFGEWERKT
     return {
         totalCountries,
         averagePopulation,
-        favoritesPopulation: 0
+        favoritesPopulation: 0,
     };
 }
