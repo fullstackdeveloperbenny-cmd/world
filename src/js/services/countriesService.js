@@ -17,6 +17,7 @@ export async function fetchAllCountries() {
             throw new Error(`HTTP fout: ${res.status}`);
         }
         const data = await res.json();
+        //dit is om te controleren of het echt een array is
         if (!Array.isArray(data)) {
             throw new Error("API antwoord is geen array");
         }
