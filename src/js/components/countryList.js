@@ -1,4 +1,5 @@
 import { clearElement, createElement } from "../utils/dom.js";
+
 /**
  * Render de lijst van landen in #country_list.
  *
@@ -11,7 +12,9 @@ import { clearElement, createElement } from "../utils/dom.js";
 export function renderCountryList({ countries, favorites, onCountryClick, onFavoriteToggle }) {
     const container = document.querySelector("#country_list");
     if (!container) return;
+
     clearElement(container);
+
     if (!countries || countries.length === 0) {
         const empty = createElement(
             "div",
@@ -21,16 +24,53 @@ export function renderCountryList({ countries, favorites, onCountryClick, onFavo
         container.appendChild(empty);
         return;
     }
+
     countries.forEach((country) => {
         const col = createElement("div", "col");
         const card = createElement("div", "card h-100 shadow-sm border-0");
-        const body = createElement("div", "card-body d-flex flex-column");
-// TODO:
-// - vlag, naam, regio, populatie tonen
-// - knop "Details" die onCountryClick(country) oproept
-// - knop/icon voor favoriet (onFavoriteToggle(country))
-// - check of dit land in favorites zit (kleur/icoon aanpassen)
-        card.appendChild(body);
+        const cardBody = createElement("div", "card-body d-flex flex-column");
+
+        // Vlag
+        const flagImg = createElement("img", "card-img-top mb-2");
+        flagImg.src = country.flags.png;
+        flagImg.alt = `Vlag van ${country.name.common}`;
+
+        // Naam
+        const nameEl = createElement("h5", "card-title", country.name.common);
+
+        // Regio en populatie
+        const infoEl = createElement(
+            "p",
+            "card-text mb-2",
+            `${country.region} • Populatie: ${country.population.toLocaleString()}`
+        );
+
+        // Buttons container
+        const btnContainer = createElement("div", "mt-auto d-flex justify-content-between");
+
+        // Details-knop
+        const detailsBtn = createElement("button", "btn btn-sm btn-primary", "Details");
+        detailsBtn.addEventListener("click", () => onCountryClick(country));
+
+        // Favoriet-knop (hartje)
+        const isFav = favorites.some((fav) => fav.cca3 === country.cca3);
+        const favBtn = createElement(
+            "button",
+            `btn btn-sm ${isFav ? "btn-warning" : "btn-outline-warning"}`,
+            "★"
+        );
+        favBtn.addEventListener("click", () => onFavoriteToggle(country));
+
+        btnContainer.appendChild(detailsBtn);
+        btnContainer.appendChild(favBtn);
+
+        // Voeg alles toe aan cardBody
+        cardBody.appendChild(flagImg);
+        cardBody.appendChild(nameEl);
+        cardBody.appendChild(infoEl);
+        cardBody.appendChild(btnContainer);
+
+        card.appendChild(cardBody);
         col.appendChild(card);
         container.appendChild(col);
     });
