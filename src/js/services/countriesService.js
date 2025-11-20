@@ -1,4 +1,5 @@
-const COUNTRIES_API_URL = "https://restcountries.com/v3.1/all?fields=name/belgium";
+const COUNTRIES_API_URL =
+    "https://restcountries.com/v3.1/all?fields=name,cca3,flags,region,population,capital,languages,currencies,latlng";
 /**
  * Haalt alle landen op via de REST Countries API.
  * @returns {Promise<Array>} array van landen
@@ -9,5 +10,21 @@ export async function fetchAllCountries() {
 // - controleer res.ok
 // - parse JSON en geef de array terug
 // - gooi een fout bij problemen
-    throw new Error("fetchAllCountries() is nog niet geïmplementeerd");
+
+    try {
+        const res = await fetch(COUNTRIES_API_URL);
+        if (!res.ok) {
+            throw new Error(`HTTP fout: ${res.status}`);
+        }
+        const data = await res.json();
+        if (!Array.isArray(data)) {
+            throw new Error("API antwoord is geen array");
+        }
+        return data;
+    } catch (err) {
+        console.error("Fout bij fetchAllCountries():", err);
+        throw err;
+    }
 }
+
+

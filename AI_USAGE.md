@@ -1,6 +1,7 @@
 ## 1. Landenlijst & filters
-AI gebruikt? ja/nee
-Omschrijving:
+AI gebruikt? ja
+Omschrijving: we hebben chatgpt gebruikt om je de juiste api 
+te krijgen
 ## 2. Detailmodal & kaart
 AI gebruikt? ja/nee
 Omschrijving:
