@@ -52,22 +52,47 @@ function setupFilterHandlers() {
     }
 }
 function applyFilters() {
-// TODO:
-// - zoekterm en regio uitlezen
-// - filteredCountries opbouwen vanuit allCountries
-// Voorbeeldstructuur:
-// const term = searchInput.value.trim().toLowerCase();
-// const region = regionSelect.value;
-// filteredCountries = allCountries.filter(...);
+    const term = searchInput.value.trim().toLowerCase();
+    const selectedRegion = regionSelect.value.trim().toLowerCase();
+
+    // FILTER LOGICA
+    filteredCountries = allCountries.filter(country => {
+
+        // naam match
+        const name = country.name.common.toLowerCase();
+        const matchTerm = name.includes(term);
+
+        // regio logica:
+        // "Alle regio's", "all", "", null → gelden als "geen filter"
+        const countryRegion = (country.region || "").toLowerCase();
+        const matchRegion =
+            selectedRegion === "all" ||
+            countryRegion === selectedRegion;
+
+       // console.log(matchTerm, '-',matchRegion);
+
+        return matchTerm && matchRegion;
+
+    });
+   // console.log(filteredCountries[0].capital[0])
+
+    // RENDEREN VAN LANDEN
     renderCountryList({
         countries: filteredCountries,
         favorites,
         onCountryClick: handleCountryClick,
         onFavoriteToggle: handleFavoriteToggleFromList
     });
+
+    // AANTAL BIJWERKEN
     countriesCount.textContent = `${filteredCountries.length} landen`;
+
+    // STATS UPDATEN
     updateStats();
 }
+
+
+
 function handleCountryClick(country) {
     showCountryDetail(country, isFavorite(country));
 }
