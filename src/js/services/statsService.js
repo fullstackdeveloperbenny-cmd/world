@@ -18,13 +18,15 @@ export async function fetchRateToEuro(currencyCode) {
  * @param {Array} favorites lijst van favorieten
  */
 export function calculateStats(countries, favorites) {
+    const totalCountries = countries.length;
+    const averagePopulation = ``
 // TODO:
 // - totalCountries
 // - averagePopulation
 // - favoritesPopulation
     return {
-        totalCountries: 0,
-        averagePopulation: 0,
+        totalCountries,
+        averagePopulation,
         favoritesPopulation: 0
     };
 }
