@@ -52,3 +52,10 @@ body {
   border-radius: 0.25rem 0.25rem 0 0;
 }
 
+.flag-img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  display: block;
+  background: #f8f9fa;
+}

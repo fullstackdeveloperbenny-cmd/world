@@ -31,7 +31,7 @@ export function renderCountryList({ countries, favorites, onCountryClick, onFavo
         const cardBody = createElement("div", "card-body d-flex flex-column");
 
         // Vlag
-        const flagImg = createElement("img", "card-img-top mb-2");
+        const flagImg = createElement("img", "flag-img mb-2");
         flagImg.src = country.flags.png;
         flagImg.alt = `Vlag van ${country.name.common}`;
 
