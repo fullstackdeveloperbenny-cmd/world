@@ -44,87 +44,84 @@ export async function showCountryDetail(country, isFavorite) {
     // Titel invullen
     // titel invullen
     title.textContent = country.name.common;
-
-// vlag instellen
     flagImg.src = country.flags?.png || "";
     flagImg.alt = `Vlag van ${country.name.common}`;
 
-// leegmaken
+    // 2. Details leegmaken
     clearElement(detailsDl);
     clearElement(currencyInfo);
 
-// juiste Bootstrap layout
+    // 3. Helper voor dt/dd
     function addDetail(term, value) {
         const dt = document.createElement("dt");
         const dd = document.createElement("dd");
-
         dt.classList.add("col-sm-4");
         dd.classList.add("col-sm-8");
-
         dt.textContent = term;
         dd.textContent = value;
-
         detailsDl.appendChild(dt);
         detailsDl.appendChild(dd);
     }
 
-// Hoofdstad
+    // 4. Landinformatie toevoegen
     addDetail("Hoofdstad", country.capital?.join(", ") || "Onbekend");
-
-// Regio
     addDetail("Regio", country.region || "Onbekend");
-
-// Populatie
     addDetail("Populatie", country.population?.toLocaleString() || "Onbekend");
+    addDetail(
+        "Talen",
+        country.languages ? Object.values(country.languages).join(", ") : "Onbekend"
+    );
 
-// Talen
-    const talen = country.languages
-        ? Object.values(country.languages).join(", ")
-        : "Onbekend";
-    addDetail("Talen", talen);
-
-// Valuta
+    // 5. Valuta
     let valutaString = "Onbekend";
     let valutaCode = null;
-
     if (country.currencies) {
         const entries = Object.entries(country.currencies);
-        valutaCode = entries[0][0]; // bijv. SYP
-        const c = entries[0][1];    // { name: "...", symbol: "..." }
-
+        valutaCode = entries[0][0]; // bv. SYP
+        const c = entries[0][1];
         valutaString = `${valutaCode} – ${c.name}`;
     }
-
     addDetail("Valuta", valutaString);
 
-// Valuta-info (zoals rechts op jouw foto)
+    // 6. Wisselkoers informatie
     if (valutaCode) {
-        const rate = await fetchRateToEuro(valutaCode);
-
-        const box = document.createElement("div");
-
-        box.innerHTML = `
-        <p class="mb-1">Valuta: ${valutaString}</p>
-        ${
-            rate
-                ? `<p class="mb-1">1 EUR ≈ ${rate.toLocaleString()} ${valutaCode}</p>`
-                : `<p class="text-muted">Wisselkoers niet beschikbaar</p>`
+        try {
+            const rate = await fetchRateToEuro(valutaCode);
+            const box = document.createElement("div");
+            box.innerHTML = `
+                <p class="mb-1">Valuta: ${valutaString}</p>
+                ${
+                rate
+                    ? `<p class="mb-1">1 EUR ≈ ${rate.toLocaleString()} ${valutaCode}</p>`
+                    : `<p class="text-muted">Wisselkoers niet beschikbaar</p>`
+            }
+            `;
+            currencyInfo.appendChild(box);
+        } catch (err) {
+            const box = document.createElement("div");
+            box.innerHTML = `<p class="text-muted">Wisselkoers niet beschikbaar</p>`;
+            currencyInfo.appendChild(box);
         }
-    `;
-
-        currencyInfo.appendChild(box);
     }
 
+    // 7. Favorietenknop aanpassen
+    if (favBtn) {
+        favBtn.textContent = isFavorite ? "Verwijder uit favorieten" : "Toevoegen aan favorieten";
+    }
 
-// TODO: alertBox verbergen of tonen afhankelijk van geodata (lat/lng)
-// - lat/lng zoeken in country.latlng
-// - als aanwezig: focusCountry(lat, lng, name)
-// - anders: nette melding tonen en map eventueel "disable"-stijl geven
-// TODO: wisselkoers-info ophalen
-// - eerste currency-code bepalen uit country.currencies
-// - fetchRateToEuro(code) aanroepen
-// - resultaat tonen in currencyInfo
-// - foutmeldingen netjes afhandelen
-// TODO: tekst/appearance van favBtn aanpassen op basis van isFavorite
+    // 8. Modal tonen
     modalInstance.show();
+
+    // 9. Kaart en alertBox afhandelen
+    setTimeout(() => {
+        if (country.latlng && country.latlng.length === 2) {
+            // Forceer Leaflet kaart herberekenen
+            map.invalidateSize();
+            focusCountry(country.latlng[0], country.latlng[1], country.name.common);
+            alertBox.classList.add("d-none"); // alert verbergen
+        } else {
+            alertBox.textContent = "Locatie niet beschikbaar voor dit land";
+            alertBox.classList.remove("d-none"); // alert tonen
+        }
+    }, 0);
 }
