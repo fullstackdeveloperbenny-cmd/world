@@ -1,4 +1,4 @@
-const EXCHANGE_API_BASE = "https://api.exchangerate.host/latest";
+const EXCHANGE_API_BASE = "https://open.er-api.com/v6/latest";
 /**
  * Haal wisselkoers op van EUR naar currencyCode.
  * @param {string} currencyCode bijv. "USD"
