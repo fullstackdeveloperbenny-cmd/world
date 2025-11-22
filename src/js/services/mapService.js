@@ -1,7 +1,7 @@
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
-let map;
+ export let map;
 let marker;
 
 /**
