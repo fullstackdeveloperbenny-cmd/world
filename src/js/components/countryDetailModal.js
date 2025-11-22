@@ -85,18 +85,34 @@ export async function showCountryDetail(country, isFavorite) {
 
 // Valuta
     let valutaString = "Onbekend";
+    let valutaCode = null;
+
     if (country.currencies) {
-        valutaString = Object.values(country.currencies)
-            .map(c => `${c.name} – ${c.symbol || "-"}`)
-            .join(", ");
+        const entries = Object.entries(country.currencies);
+        valutaCode = entries[0][0]; // bijv. SYP
+        const c = entries[0][1];    // { name: "...", symbol: "..." }
+
+        valutaString = `${valutaCode} – ${c.name}`;
     }
+
     addDetail("Valuta", valutaString);
 
-// Valuta-info rechts
-    if (country.currencies) {
-        const p1 = document.createElement("p");
-        p1.textContent = `Valuta: ${valutaString}`;
-        currencyInfo.appendChild(p1);
+// Valuta-info (zoals rechts op jouw foto)
+    if (valutaCode) {
+        const rate = await fetchRateToEuro(valutaCode);
+
+        const box = document.createElement("div");
+
+        box.innerHTML = `
+        <p class="mb-1">Valuta: ${valutaString}</p>
+        ${
+            rate
+                ? `<p class="mb-1">1 EUR ≈ ${rate.toLocaleString()} ${valutaCode}</p>`
+                : `<p class="text-muted">Wisselkoers niet beschikbaar</p>`
+        }
+    `;
+
+        currencyInfo.appendChild(box);
     }
 
 
