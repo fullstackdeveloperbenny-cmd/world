@@ -43,7 +43,7 @@ export function calculateStats(countries, favorites) {
         sum += pop;
     }
     const averagePopulation = populations.length > 0
-        ? sum / populations.length
+        ? Math.ceil(sum / populations.length)
         : 0;
 
 // TODO:
