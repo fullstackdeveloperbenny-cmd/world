@@ -9,8 +9,8 @@ Omschrijving:
 AI gebruikt? ja/nee
 Omschrijving:
 ## 4. Favorieten + localStorage
-AI gebruikt? ja/nee
-Omschrijving:
+AI gebruikt? ja
+Omschrijving:breed uitlet over een taak, en debugging van de code
 ## 5. Statistiekenpanel
 AI gebruikt? ja/nee
 Omschrijving:

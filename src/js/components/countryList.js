@@ -30,29 +30,30 @@ export function renderCountryList({ countries, favorites, onCountryClick, onFavo
         const card = createElement("div", "card h-100 shadow-sm border-0");
         const cardBody = createElement("div", "card-body d-flex flex-column");
 
-        // vlag
-        const flagImg = createElement("img", "card-img-top mb-2");
+        // Vlag
+        const flagImg = createElement("img", "flag-img mb-2");
         flagImg.src = country.flags.png;
         flagImg.alt = `Vlag van ${country.name.common}`;
 
-        // naam
+        // Naam
         const nameEl = createElement("h5", "card-title", country.name.common);
 
-        // regio en populatie
-        const infoEl = createElement(
+        // Regio en populatie
+        const regionEl = createElement("p", "card-text mb-0", country.region);
+        const popEl = createElement(
             "p",
-            "card-text mb-2",
-            `${country.region} • Populatie: ${country.population.toLocaleString()}`
+            "card-text mb-2 text-muted",
+            `Populatie: ${country.population.toLocaleString()}`
         );
 
-        // buttons container
+        // Buttons container
         const btnContainer = createElement("div", "mt-auto d-flex justify-content-between");
 
-        // details-knop
+        // Details-knop
         const detailsBtn = createElement("button", "btn btn-sm btn-primary", "Details");
         detailsBtn.addEventListener("click", () => onCountryClick(country));
 
-        // favoriet-knop (hartje)
+        // Favoriet-knop (hartje)
         const isFav = favorites.some((fav) => fav.cca3 === country.cca3);
         const favBtn = createElement(
             "button",
@@ -64,10 +65,11 @@ export function renderCountryList({ countries, favorites, onCountryClick, onFavo
         btnContainer.appendChild(detailsBtn);
         btnContainer.appendChild(favBtn);
 
-        // voeg alles toe aan cardBody
+        // Voeg alles toe aan cardBody
         cardBody.appendChild(flagImg);
         cardBody.appendChild(nameEl);
-        cardBody.appendChild(infoEl);
+        cardBody.appendChild(regionEl);
+        cardBody.appendChild(popEl);
         cardBody.appendChild(btnContainer);
 
         card.appendChild(cardBody);
