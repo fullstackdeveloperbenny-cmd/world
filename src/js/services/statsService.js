@@ -46,6 +46,14 @@ export function calculateStats(countries, favorites) {
         ? Math.ceil(sum / populations.length)
         : 0;
 
+    let favoritesPopulation = 0;
+    for (const fav of favorites) {
+        const fullCountry = countries.find(c => c.cca3 === fav.cca3);
+        if (fullCountry) {
+            favoritesPopulation += fullCountry.population;
+        }
+    }
+
 // TODO:
 // - totalCountries V
 // - averagePopulation  V
@@ -53,6 +61,6 @@ export function calculateStats(countries, favorites) {
     return {
         totalCountries,
         averagePopulation,
-        favoritesPopulation: 0,
+        favoritesPopulation,
     };
 }
