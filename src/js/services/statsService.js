@@ -32,27 +32,35 @@ export async function fetchRateToEuro(currencyCode) {
  * @param {Array} countries huidige gefilterde landen
  * @param {Array} favorites lijst van favorieten
  */
+/**
+ * Bereken statistieken op basis van gefilterde landen en favorieten.
+ * @param {Array} countries huidige gefilterde landen
+ * @param {Array} favorites lijst van favorieten
+ */
 export function calculateStats(countries, favorites) {
     const totalCountries = countries.length;
-    const populations= []
-    for (const country of countries) {
-        populations.push(country.population);
-    }
-    let sum = 0;
-    for (const pop of populations) {
-        sum += pop;
-    }
-    const averagePopulation = populations.length > 0
-        ? Math.ceil(sum / populations.length)
-        : 0;
 
-// TODO:
-// - totalCountries V
-// - averagePopulation  V
-// - favoritesPopulation !!! NOG NIET AFGEWERKT
+    // gemiddelde populatie van alle landen
+    const totalPopulation = countries.reduce(
+        (sum, country) => sum + (country.population ?? 0),
+        0
+    );
+
+    const averagePopulation =
+        countries.length > 0
+            ? Math.ceil(totalPopulation / countries.length)
+            : 0;
+
+    // totale populatie van alle favorieten
+    const favoritesPopulation = favorites.reduce(
+        (sum, fav) => sum + (fav.population ?? 0),
+        0
+    );
+
     return {
         totalCountries,
         averagePopulation,
-        favoritesPopulation: 0,
+        favoritesPopulation
     };
+
 }

@@ -59,3 +59,42 @@ body {
   display: block;
   background: #f8f9fa;
 }
+.stat-bar-wrapper {
+  height: 150px;        // max hoogte van de verticale bar
+  width: 50%;           // optioneel, breedte van de bar
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end; // zorgt dat barFill van onder groeit
+}
+
+.stat-bar-fill {
+  width: 100%;
+  border-radius: 8px 8px 0 0; // afgeronde bovenkant
+  transition: height 0.5s;
+}
+
+
+
+/* kleuren zoals in jouw voorbeeld */
+.stat-bar-fill.blue {
+  background: #a6c8ff;
+  border: 1px solid #4d8aff;
+}
+
+.stat-bar-fill.green {
+  background: #cdeee0;
+  border: 1px solid #7aba98;
+}
+
+.stat-bar-fill.yellow {
+  background: #fff0c2;
+  border: 1px solid #e9c874;
+}
+
+.stat-bar-text {
+  font-size: 14px;
+  color: #444;
+}
