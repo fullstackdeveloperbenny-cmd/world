@@ -57,7 +57,7 @@ export function calculateStats(countries, favorites) {
 // TODO:
 // - totalCountries V
 // - averagePopulation  V
-// - favoritesPopulation !!! NOG NIET AFGEWERKT
+// - favoritesPopulation V
     return {
         totalCountries,
         averagePopulation,
