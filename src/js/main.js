@@ -52,22 +52,47 @@ function setupFilterHandlers() {
     }
 }
 function applyFilters() {
-// TODO:
-// - zoekterm en regio uitlezen
-// - filteredCountries opbouwen vanuit allCountries
-// Voorbeeldstructuur:
-// const term = searchInput.value.trim().toLowerCase();
-// const region = regionSelect.value;
-// filteredCountries = allCountries.filter(...);
+    const term = searchInput.value.trim().toLowerCase();
+    const selectedRegion = regionSelect.value.trim().toLowerCase();
+
+    // FILTER LOGICA
+    filteredCountries = allCountries.filter(country => {
+
+        // naam match
+        const name = country.name.common.toLowerCase();
+        const matchTerm = name.includes(term);
+
+        // regio logica:
+        // "Alle regio's", "all", "", null → gelden als "geen filter"
+        const countryRegion = (country.region || "").toLowerCase();
+        const matchRegion =
+            selectedRegion === "all" ||
+            countryRegion === selectedRegion;
+
+       // console.log(matchTerm, '-',matchRegion);
+
+        return matchTerm && matchRegion;
+
+    });
+   // console.log(filteredCountries[0].capital[0])
+
+    // RENDEREN VAN LANDEN
     renderCountryList({
         countries: filteredCountries,
         favorites,
         onCountryClick: handleCountryClick,
         onFavoriteToggle: handleFavoriteToggleFromList
     });
+
+    // AANTAL BIJWERKEN
     countriesCount.textContent = `${filteredCountries.length} landen`;
+
+    // STATS UPDATEN
     updateStats();
 }
+
+
+
 function handleCountryClick(country) {
     showCountryDetail(country, isFavorite(country));
 }
@@ -83,6 +108,21 @@ function toggleFavorite(country) {
 // - indien al aanwezig in favorites: verwijderen
 // - anders: toevoegen (met minimaal name, region, cca3)
 // saveFavorites(favorites);
+    const key = country.cca3;
+    const index = favorites.findIndex(f => f.cca3 === key)
+// console.log(index)
+    if (index >= 0) {
+        favorites.splice(index, 1);
+    } else {
+        const addedFav = {cca3: key, name: country.name.common, region: country.region, flag: country.flags?.png || country.flags?.svg || ''};
+    favorites.push(addedFav);
+}
+    saveFavorites(favorites);
+    renderCountryList({
+        countries: filteredCountries, favorites,
+        onCountryClick: handleCountryClick,
+        onFavoriteToggle: handleFavoriteToggleFromList
+    });
     renderFavorites();
     updateStats();
 }
@@ -98,10 +138,29 @@ function renderFavorites() {
         return;
     }
     favoritesEmpty.classList.add("d-none");
+
     favorites.forEach((fav) => {
         const li = document.createElement("li");
         li.className = "list-group-item d-flex justify-content-between align-items-center";
-        li.textContent = `${fav.name} (${fav.region})`;
+
+        const row = document.createElement("div");
+        row.className = "d-flex align-items-center gap-2";
+
+        const flagImg = document.createElement("img");
+        flagImg.src = fav.flag;
+        flagImg.alt= fav.name;
+        flagImg.className = "rounded border";
+        flagImg.width = 30;
+
+        const label = document.createElement("span");
+        label.textContent = `${fav.name} (${fav.region})`;
+
+        row.appendChild(flagImg);
+        row.appendChild(label);
+
+        li.appendChild(row);
+
+
         li.addEventListener("click", () => {
             const country = allCountries.find((c) => c.cca3 === fav.cca3);
             if (country) {
