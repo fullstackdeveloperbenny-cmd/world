@@ -30,29 +30,29 @@ export function renderCountryList({ countries, favorites, onCountryClick, onFavo
         const card = createElement("div", "card h-100 shadow-sm border-0");
         const cardBody = createElement("div", "card-body d-flex flex-column");
 
-        // Vlag
+        // vlag
         const flagImg = createElement("img", "card-img-top mb-2");
         flagImg.src = country.flags.png;
         flagImg.alt = `Vlag van ${country.name.common}`;
 
-        // Naam
+        // naam
         const nameEl = createElement("h5", "card-title", country.name.common);
 
-        // Regio en populatie
+        // regio en populatie
         const infoEl = createElement(
             "p",
             "card-text mb-2",
             `${country.region} • Populatie: ${country.population.toLocaleString()}`
         );
 
-        // Buttons container
+        // buttons container
         const btnContainer = createElement("div", "mt-auto d-flex justify-content-between");
 
-        // Details-knop
+        // details-knop
         const detailsBtn = createElement("button", "btn btn-sm btn-primary", "Details");
         detailsBtn.addEventListener("click", () => onCountryClick(country));
 
-        // Favoriet-knop (hartje)
+        // favoriet-knop (hartje)
         const isFav = favorites.some((fav) => fav.cca3 === country.cca3);
         const favBtn = createElement(
             "button",
@@ -64,7 +64,7 @@ export function renderCountryList({ countries, favorites, onCountryClick, onFavo
         btnContainer.appendChild(detailsBtn);
         btnContainer.appendChild(favBtn);
 
-        // Voeg alles toe aan cardBody
+        // voeg alles toe aan cardBody
         cardBody.appendChild(flagImg);
         cardBody.appendChild(nameEl);
         cardBody.appendChild(infoEl);
