@@ -171,7 +171,7 @@ function renderFavorites() {
     });
 }
 function updateStats() {
-    const stats = calculateStats(filteredCountries, favorites);
+    const stats = calculateStats(filteredCountries, favorites, allCountries);
     renderStats(stats);
 }
 function setStatus(message, type = "secondary") {
