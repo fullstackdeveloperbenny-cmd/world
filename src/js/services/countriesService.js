@@ -27,5 +27,3 @@ export async function fetchAllCountries() {
         throw err;
     }
 }
-
-

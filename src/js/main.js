@@ -108,6 +108,21 @@ function toggleFavorite(country) {
 // - indien al aanwezig in favorites: verwijderen
 // - anders: toevoegen (met minimaal name, region, cca3)
 // saveFavorites(favorites);
+    const key = country.cca3;
+    const index = favorites.findIndex(f => f.cca3 === key)
+// console.log(index)
+    if (index >= 0) {
+        favorites.splice(index, 1);
+    } else {
+        const addedFav = {cca3: key, name: country.name.common, region: country.region, flag: country.flags?.png || country.flags?.svg || ''};
+    favorites.push(addedFav);
+}
+    saveFavorites(favorites);
+    renderCountryList({
+        countries: filteredCountries, favorites,
+        onCountryClick: handleCountryClick,
+        onFavoriteToggle: handleFavoriteToggleFromList
+    });
     renderFavorites();
     updateStats();
 }
@@ -123,10 +138,29 @@ function renderFavorites() {
         return;
     }
     favoritesEmpty.classList.add("d-none");
+
     favorites.forEach((fav) => {
         const li = document.createElement("li");
         li.className = "list-group-item d-flex justify-content-between align-items-center";
-        li.textContent = `${fav.name} (${fav.region})`;
+
+        const row = document.createElement("div");
+        row.className = "d-flex align-items-center gap-2";
+
+        const flagImg = document.createElement("img");
+        flagImg.src = fav.flag;
+        flagImg.alt= fav.name;
+        flagImg.className = "rounded border";
+        flagImg.width = 30;
+
+        const label = document.createElement("span");
+        label.textContent = `${fav.name} (${fav.region})`;
+
+        row.appendChild(flagImg);
+        row.appendChild(label);
+
+        li.appendChild(row);
+
+
         li.addEventListener("click", () => {
             const country = allCountries.find((c) => c.cca3 === fav.cca3);
             if (country) {
@@ -137,7 +171,7 @@ function renderFavorites() {
     });
 }
 function updateStats() {
-    const stats = calculateStats(filteredCountries, favorites);
+    const stats = calculateStats(filteredCountries, favorites, allCountries);
     renderStats(stats);
 }
 function setStatus(message, type = "secondary") {

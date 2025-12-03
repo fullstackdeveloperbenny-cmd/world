@@ -107,7 +107,9 @@ export async function showCountryDetail(country, isFavorite) {
 
     // --- Favorietenknop ---
     if (favBtn) {
-        favBtn.textContent = isFavorite ? "Verwijder uit favorieten" : "Toevoegen aan favorieten";
+        favBtn.textContent = isFavorite
+            ? "Verwijder uit favorieten"
+            : "Toevoegen aan favorieten";
     }
 
     // --- Modal tonen ---
