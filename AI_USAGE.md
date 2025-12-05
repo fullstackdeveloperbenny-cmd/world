@@ -12,6 +12,6 @@ Omschrijving:
 AI gebruikt? ja
 Omschrijving:breed uitleeg over een taak, en debugging van de code
 ## 5. Statistiekenpanel
-AI gebruikt? ja/nee
-Omschrijving:
+AI gebruikt? nee
+Omschrijving: 
 ## 6. Overige
