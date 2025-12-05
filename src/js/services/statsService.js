@@ -32,7 +32,7 @@ export async function fetchRateToEuro(currencyCode) {
  * @param {Array} countries huidige gefilterde landen
  * @param {Array} favorites lijst van favorieten
  */
-export function calculateStats(countries, favorites) {
+export function calculateStats(countries, favorites, allCountries) {
     const totalCountries = countries.length;
     const populations= []
     for (const country of countries) {
@@ -48,9 +48,9 @@ export function calculateStats(countries, favorites) {
 
     let favoritesPopulation = 0;
     for (const fav of favorites) {
-        const fullCountry = countries.find(c => c.cca3 === fav.cca3);
-        if (fullCountry) {
-            favoritesPopulation += fullCountry.population;
+        const full = allCountries?.find(c => c.cca3 === fav.cca3);
+        if (full && typeof full.population === 'number') {
+            favoritesPopulation += full.population;
         }
     }
 
