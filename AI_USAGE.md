@@ -1,7 +1,7 @@
 ## 1. Landenlijst & filters
 AI gebruikt? ja
 Omschrijving: we hebben chatgpt gebruikt om je de juiste api 
-te krijgen
+te krijgen, idea voor code en debugging
 ## 2. Detailmodal & kaart
 AI gebruikt? ja/nee
 Omschrijving:
@@ -10,7 +10,7 @@ AI gebruikt? ja/nee
 Omschrijving:
 ## 4. Favorieten + localStorage
 AI gebruikt? ja
-Omschrijving:breed uitlet over een taak, en debugging van de code
+Omschrijving:breed uitleeg over een taak, en debugging van de code
 ## 5. Statistiekenpanel
 AI gebruikt? ja/nee
 Omschrijving:
